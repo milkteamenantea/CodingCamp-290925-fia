@@ -1,7 +1,7 @@
-// Data penyimpanan tugas (gunakan Local Storage untuk persistensi)
+// Data penyimpanan tugas
 let todos = JSON.parse(localStorage.getItem('todos')) || [];
 
-// Ambil elemen-elemen DOM
+// Elemen-elemen DOM
 const todoForm = document.getElementById('todo-form');
 const taskInput = document.getElementById('task-input');
 const dateInput = document.getElementById('date-input');
@@ -13,6 +13,7 @@ const deleteAllModal = document.getElementById('delete-all-modal');
 const confirmDeleteButton = document.getElementById('confirm-delete');
 const cancelDeleteButton = document.getElementById('cancel-delete');
 const closeModal = document.querySelector('.close-button');
+const noTaskMessage = document.getElementById('no-task-message');
 
 // --- Fungsi Utama ---
 
@@ -23,6 +24,20 @@ function saveTodos() {
     localStorage.setItem('todos', JSON.stringify(todos));
 }
 
+function updateNoTaskMessage() {
+    if (todos.length === 0) {
+        // Tampilkan pesan jika daftar kosong
+        if (noTaskMessage) {
+            noTaskMessage.style.display = 'block';
+        }
+    } else {
+        // Sembunyikan pesan jika ada tugas
+        if (noTaskMessage) {
+            noTaskMessage.style.display = 'none';
+        }
+    }
+}
+
 /**
  * Merender (menampilkan) daftar tugas ke tabel
  * @param {Array<Object>} tasksToRender - Daftar tugas yang akan ditampilkan
@@ -30,13 +45,11 @@ function saveTodos() {
 function renderTodos(tasksToRender = todos) {
     taskList.innerHTML = ''; // Kosongkan daftar yang sudah ada
 
-    if (tasksToRender.length === 0) {
-        // Tampilkan pesan "NO TASK FOUND"
-        const noTaskRow = document.createElement('tr');
-        noTaskRow.innerHTML = `<td colspan="4" class="no-task-found">NO TASK FOUND</td>`;
-        taskList.appendChild(noTaskRow);
+    if (tasksToRender.length === 0 && todos.length > 0) {
         return;
     }
+    
+    if (tasksToRender.length === 0) return;
 
     tasksToRender.forEach((todo, index) => {
         const row = document.createElement('tr');
@@ -179,14 +192,27 @@ function sortTodos(sortType) {
 todoForm.addEventListener('submit', addTodo);
 
 // 2. Filter dengan Responsive Dropdown
+filterButton.addEventListener('click', (e) => {
+    e.stopPropagation(); // Mencegah klik menyebar ke window
+    // Toggle display
+    if (dropdownContent.style.display === 'block') {
+        dropdownContent.style.display = 'none';
+    } else {
+        dropdownContent.style.display = 'block';
+    }
+});
+
+// 3. Menangani klik pada opsi sorting di dalam dropdown
 dropdownContent.addEventListener('click', (e) => {
     if (e.target.tagName === 'A' && e.target.dataset.sort) {
         e.preventDefault();
         sortTodos(e.target.dataset.sort);
+        // Sembunyikan dropdown setelah memilih opsi
+        dropdownContent.style.display = 'none'; 
     }
 });
 
-// 3. Tombol Delete All dengan Pop-up Konfirmasi
+// 4. Tombol Delete All dengan Pop-up Konfirmasi
 deleteAllButton.addEventListener('click', () => {
     if (todos.length === 0) {
         alert("Tidak ada tugas untuk dihapus.");
