@@ -10,7 +10,7 @@ const filterButton = document.getElementById('filter-button');
 const dropdownContent = document.querySelector('.dropdown-content');
 const deleteAllButton = document.getElementById('delete-all-button');
 
-// Elemen modal ada di HTML
+// Elemen modal dari HTML
 const deleteAllModal = document.getElementById('delete-all-modal');
 const confirmDeleteButton = document.getElementById('confirm-delete');
 const cancelDeleteButton = document.getElementById('cancel-delete');
@@ -47,7 +47,7 @@ function updateNoTaskMessage() {
 
 
 /**
- * Merender (menampilkan) daftar tugas ke tabel
+ * Menampilkan daftar tugas ke tabel
  * @param {Array<Object>} tasksToRender - Daftar tugas yang akan ditampilkan
  */
 function renderTodos(tasksToRender = todos) {
@@ -56,8 +56,8 @@ function renderTodos(tasksToRender = todos) {
     // Panggil fungsi ini di awal untuk memperbarui status pesan di luar tabel
     updateNoTaskMessage(); 
 
-    // Jika daftar tugas kosong, kita keluar dari fungsi
-    // karena pesan "NO TASK FOUND" sudah diurus oleh updateNoTaskMessage()
+    // Jika daftar tugas kosong, keluar dari fungsi
+    // Karena pesan "NO TASK FOUND", sudah diurus oleh updateNoTaskMessage()
 
     if (tasksToRender.length === 0) {
         return;
@@ -148,7 +148,7 @@ function addTodo(e) {
  */
 function deleteTodo(id) {
     // Konfirmasi (opsional)
-    // if (!confirm("Yakin ingin menghapus tugas ini?")) return;
+    // if (!confirm("Are you sure you want to delete all tasks?")) return;
     
     todos = todos.filter(todo => todo.id !== id);
     saveTodos();
@@ -204,7 +204,7 @@ function sortTodos(sortType) {
 // --- Handler Events ---
 
 // 1. Tambahkan Tugas
-// Pastikan elemen todoForm ada (<form id="todo-form">)
+// Pastikan elemen todoForm ada
 if (todoForm) {
     todoForm.addEventListener('submit', addTodo);
 } else {

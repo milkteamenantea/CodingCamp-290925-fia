@@ -5,9 +5,12 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
-        <!-- Bootstrap CSS -->
+        <!-- CSS -->
         <link rel="stylesheet" href="./css/style.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+        <!-- Tailwind CSS CDN -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
         <title>RevoU SE Coding Camp</title>
         <link rel="shortcut icon" href="./img/Logo_revou.png">
@@ -16,38 +19,48 @@
     <body>
         <!-- Header -->
         <header>
-            <img src="./img/Screenshot 2025-09-29 185348.png" alt="RevoU Logo" class="logo" />
-            <h1>MINI PROJECT BATCH 29 SEPTEMBER 2025</h1>
+            <img src="./img/Screenshot 2025-09-29 185348.png" alt="RevoU Logo" class="logo"/>
+            <h1 class="font-sans">MINI PROJECT BATCH 29 SEPTEMBER 2025</h1>
         
         </header>
+        <!-- End Header -->
+
+        <!-- Main Content -->
         <main>
+
+            <!-- Form To-Do -->
             <div class="todo-container">
-                <h2>To-Do List</h2>
+                <h2 class="font-sans">To-Do List</h2>
                 <form id="todo-form" class="input-area">
-                    <input type="text" id="task-input" placeholder="Add a to-do..." required>
+                    <input type="text" class="font-sans" id="task-input" placeholder="Add a to-do..." required>
                     <input type="date" id="date-input" required>
                     <button type="submit" id="add-button" class="action-button">+</button>
                 </form>
+
+                <!-- Action Button -->
                 <div class="controls">
                     <div class="dropdown-filter">
-                        <button id="filter-button" class="action-button">FILTER</button>
+                        <button id="filter-button" class="action-button" class="font-sans">FILTER</button>
                         <div class="dropdown-content">
-                            <a href="#" data-sort="date-asc">Urutkan Tanggal (Terlama)</a>
-                            <a href="#" data-sort="date-desc">Urutkan Tanggal (Terbaru)</a>
-                            <a href="#" data-sort="alpha-asc">Urutkan Tugas (A-Z)</a>
-                            <a href="#" data-sort="alpha-desc">Urutkan Tugas (Z-A)</a>
+                            <a href="#" class="font-sans" data-sort="date-asc">Urutkan Tanggal (Terlama)</a>
+                            <a href="#" class="font-sans" data-sort="date-desc">Urutkan Tanggal (Terbaru)</a>
+                            <a href="#" class="font-sans" data-sort="alpha-asc">Urutkan Tugas (A-Z)</a>
+                            <a href="#" class="font-sans" data-sort="alpha-desc">Urutkan Tugas (Z-A)</a>
                         </div>
                     </div>
-                    <button id="delete-all-button" class="action-button delete-all-btn">DELETE ALL</button>
+                    <button id="delete-all-button" class="action-button delete-all-btn" class="font-sans">DELETE ALL</button>
                 </div>
+                <!-- End Action Button -->
+
+                <!-- Form Table -->
                 <div class="task-list-container">
                     <table>
                         <thead>
                             <tr>
-                                <th>TASK</th>
-                                <th>DUE DATE</th>
-                                <th>STATUS</th>
-                                <th>ACTION</th>
+                                <th class="font-sans">TASK</th>
+                                <th class="font-sans">DUE DATE</th>
+                                <th class="font-sans">STATUS</th>
+                                <th class="font-sans">ACTION</th>
                             </tr>
                         </thead>
                         <tbody id="task-list">
@@ -55,17 +68,21 @@
                         </tbody>
                     </table>
                 </div>
-                <div id="no-task-message" class="no-task-found">NO TASK FOUND</div>
-                </div>
+                <div id="no-task-message" class="no-task-found" class="font-sans">NO TASK FOUND</div>
+                <!-- End Form Table -->
+
             </div>
         </main>
+        <!-- End Main Content -->
 
         <!-- Footer -->
         <footer>
-            <p>&copy; 2025 - Made by Khalifia Mutiara Andiarini</p>
-            <p>Revou Software Engineer Coding Camp</p>
+            <p class="font-sans">&copy; 2025 - Made by Khalifia Mutiara Andiarini</p>
+            <p class="font-sans">RevoU Software Engineer Coding Camp</p>
         </footer>
+        <!-- End Footer -->
 
+        <!-- Pop-up Confirmation Delete All -->
         <div id="delete-all-modal" class="modal">
             <div class="modal-content">
                 <span class="close-button">&times;</span>
@@ -76,8 +93,11 @@
                 </div>
             </div>
         </div>
+        <!-- End Pop-up Confirmation Delete All -->
 
+        <!-- JavaScript -->
         <script src="./js/script.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 
     </body>
 </html>
