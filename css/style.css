@@ -8,6 +8,7 @@
 */
 
 * {
+    box-sizing: content-box;
     margin: 0;
     padding: 0;
 }
@@ -24,12 +25,12 @@ body {
 
 /* --- Header --- */
 header {
-    width: 81%;
-    max-width: 550px;
+    width: 90%;
     display:inline-flex;
     align-items: center;
     margin-bottom: 100px;
     margin-top: 50px;
+    margin-left: 40px;
 }
 
 .logo-container {
