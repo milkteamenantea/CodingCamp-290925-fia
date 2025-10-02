@@ -26,7 +26,7 @@ body {
 /* --- Header --- */
 header {
     width: 81%;
-    max-width: 800px;
+    max-width: 550px;
     display:inline-flex;
     align-items: center;
     margin-bottom: 100px;
