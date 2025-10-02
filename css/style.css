@@ -8,7 +8,6 @@
 */
 
 * {
-    box-sizing: border-box;
     margin: 0;
     padding: 0;
 }
@@ -74,7 +73,7 @@ h2 {
 /* --- Input Area --- */
 .input-area {
     display: flex;
-    gap: 10px;
+    gap: 15px;
     margin-bottom: 15px;
 }
 
@@ -83,7 +82,8 @@ h2 {
     border: 1px solid #FFCC00; 
     border-radius: 5px;
     background-color: #FFF79F;
-    font-size: 1rem;
+    font-size: 0.9rem;
+    font-family: Arial;
     flex-grow: 1;
 }
 
@@ -117,6 +117,7 @@ h2 {
     justify-content: space-between;
     margin-bottom: 20px;
     margin-top: 40px;
+    font-family: Century Gothic;
 }
 
 .delete-all-btn {
@@ -182,7 +183,9 @@ thead th {
     padding: 10px 5px;
     text-align: left;
     font-size: 0.9rem;
-    border: none; 
+    border: none;
+    font-weight: bold;
+    font-family: Century;
 }
 
 tbody td {
