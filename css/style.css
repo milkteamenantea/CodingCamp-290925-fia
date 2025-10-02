@@ -26,6 +26,7 @@ body {
 /* --- Header --- */
 header {
     width: 80%;
+    max-width: max-content;
     display: flex;
     align-items: center;
     margin-bottom: 100px;
