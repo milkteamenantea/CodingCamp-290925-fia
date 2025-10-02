@@ -1,7 +1,7 @@
-// Data penyimpanan tugas (gunakan Local Storage untuk persistensi)
+// Data penyimpanan tugas
 let todos = JSON.parse(localStorage.getItem('todos')) || [];
 
-// Ambil elemen-elemen DOM
+// Elemen-elemen DOM
 const todoForm = document.getElementById('todo-form');
 const taskInput = document.getElementById('task-input');
 const dateInput = document.getElementById('date-input');
@@ -10,13 +10,13 @@ const filterButton = document.getElementById('filter-button');
 const dropdownContent = document.querySelector('.dropdown-content');
 const deleteAllButton = document.getElementById('delete-all-button');
 
-// Asumsi elemen modal ada di HTML
+// Elemen modal ada di HTML
 const deleteAllModal = document.getElementById('delete-all-modal');
 const confirmDeleteButton = document.getElementById('confirm-delete');
 const cancelDeleteButton = document.getElementById('cancel-delete');
 const closeModal = document.querySelector('.close-button');
 
-// PENTING: Elemen pesan "NO TASK FOUND" (Pastikan HTML Anda memiliki <div id="no-task-message" class="no-task-found">)
+// Elemen pesan "NO TASK FOUND" 
 const noTaskMessage = document.getElementById('no-task-message'); 
 
 // --- Fungsi Utama ---
@@ -37,7 +37,7 @@ function updateNoTaskMessage() {
     if (!noTaskMessage) return; 
     
     if (todos.length === 0) {
-        // Test Case 1: Daftar Kosong -> Tampilkan (gunakan 'block' atau 'flex' agar pasti muncul)
+        // Test Case 1: Daftar Kosong -> Tampilkan
         noTaskMessage.style.display = 'block';
     } else {
         // Test Case 2: Daftar Terisi -> Sembunyikan
@@ -51,12 +51,12 @@ function updateNoTaskMessage() {
  * @param {Array<Object>} tasksToRender - Daftar tugas yang akan ditampilkan
  */
 function renderTodos(tasksToRender = todos) {
-    taskList.innerHTML = ''; // Kosongkan daftar yang sudah ada
+    taskList.innerHTML = '';
 
     // Panggil fungsi ini di awal untuk memperbarui status pesan di luar tabel
     updateNoTaskMessage(); 
 
-    // Jika daftar tugas kosong (tasksToRender.length === 0), kita keluar dari fungsi
+    // Jika daftar tugas kosong, kita keluar dari fungsi
     // karena pesan "NO TASK FOUND" sudah diurus oleh updateNoTaskMessage()
 
     if (tasksToRender.length === 0) {
@@ -95,7 +95,7 @@ function renderTodos(tasksToRender = todos) {
 
         // Tombol Delete
         const deleteBtn = document.createElement('button');
-        // Pastikan Anda memiliki Font Awesome atau CSS yang sesuai untuk ikon sampah
+        
         deleteBtn.innerHTML = '<i class="fas fa-trash"></i>'; 
         deleteBtn.classList.add('action-button', 'delete-btn');
         deleteBtn.addEventListener('click', () => deleteTodo(todo.id));
@@ -176,7 +176,7 @@ function toggleComplete(id) {
  */
 function sortTodos(sortType) {
     if (sortType === 'default' || !sortType) {
-         renderTodos(todos); // Render array asli
+         renderTodos(todos);
          return;
     }
     
@@ -209,7 +209,6 @@ if (todoForm) {
     todoForm.addEventListener('submit', addTodo);
 } else {
     // Jika tidak menggunakan form, gunakan tombol Add langsung
-    // Anda mungkin perlu menambahkan logic keypress Enter pada input
     document.getElementById('add-button')?.addEventListener('click', addTodo);
 }
 
