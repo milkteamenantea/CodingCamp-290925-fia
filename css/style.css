@@ -1,0 +1,314 @@
+/* Palet Warna:
+   FFCC00: Kuning Gelap/Aksi Utama (Header Tabel, GARIS KOTAK UTAMA, Input Border)
+   FFF79F: Kuning Sangat Terang (Inner Shadow/Neon Glow)
+   FFEA00: Kuning Terang (Button Background)
+   FFD153: Kuning Sedang (Garis Horizontal Tabel)
+   FFFBD2: Kuning Pucat (Body Background)
+   FFFCA1: Kuning Pucat Sedikit Terang (Container Background)
+*/
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: #FFFBD2;
+    color: #000000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+/* --- Header --- */
+header {
+    width: 75%;
+    max-width: 800px;
+    display: flex;
+    align-items: center;
+    margin-bottom: 100px;
+    margin-top: 50px;
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    margin-right: 20px;
+}
+
+.logo-revou, .logo-se {
+    height: 50px;
+    margin-right: 10px;
+}
+
+h1 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    font-family: Inter;
+    margin-left: 20px;
+}
+
+/* --- To-Do Container Utama --- */
+.todo-container {
+    background-color: #FFFBD2;
+    border-radius: 10px;
+    padding: 30px;
+    width: 100%;
+    max-width: 600px;
+    border: 2px solid #FFCC00; 
+    box-shadow: 0 0 40px 10px #FFF79F; 
+}
+
+h2 {
+    color: #FFCC00;
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 2rem;
+    font-weight: 900;
+    font-family: Century;
+}
+
+/* --- Input Area --- */
+.input-area {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+#task-input, #date-input {
+    padding: 10px;
+    border: 1px solid #FFCC00; 
+    border-radius: 5px;
+    background-color: #FFF79F;
+    font-size: 1rem;
+    flex-grow: 1;
+}
+
+/* --- Tombol Aksi Umum --- */
+.action-button {
+    background-color: #FFEA00;
+    border: 1px solid #FFCC00; 
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    color: #000000;
+    transition: background-color 0.2s, opacity 0.2s;
+    text-transform: uppercase;
+}
+.action-button:hover {
+    background-color: #FFCC00;
+    border: 1px solid #FFCC00; 
+}
+
+#add-button {
+    font-size: 1.2rem;
+    width: 10%;
+    min-width: 40px;
+    padding: 10px 0;
+}
+
+/* --- Kontrol Area: Filter & Delete All --- */
+.controls {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.delete-all-btn {
+    background-color: #FFCC00;
+    border: 1px solid #FFCC00;
+}
+
+.delete-all-btn:hover {
+    background-color: #bb8900;
+    color: white;
+}
+
+/* Dropdown Filter */
+.dropdown-filter {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #FFFCA1;
+    min-width: 180px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    border-radius: 5px;
+    overflow: hidden;
+    left: 0;
+}
+
+.dropdown-filter:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown-content a {
+    color: #000000;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    font-size: 0.9rem;
+}
+
+.dropdown-content a:hover {
+    background-color: #FFCC00;
+}
+
+/* --- Task List Table --- */
+.task-list-container {
+    /* Border daftar tugas di dalamnya juga FFCC00 */
+    border: 2px solid #FFCC00; 
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse; 
+}
+
+thead th {
+    background-color: #FFF79F;
+    color: #000000;
+    padding: 10px 5px;
+    text-align: left;
+    font-size: 0.9rem;
+    border: none; 
+}
+
+tbody td {
+    padding: 10px 5px;
+    font-size: 0.9rem;
+    vertical-align: middle;
+    background-color: #FFFCA1;
+    
+    border: none;
+    border-bottom: 1px solid #FFD153; 
+}
+
+tbody tr:last-child td {
+    border-bottom: none; 
+}
+
+.no-task-found {
+    text-align: center;
+    font-style: italic;
+    color: #A79300;
+    padding: 20px 0 !important;
+}
+
+/* Task Status & Actions */
+.completed-task {
+    text-decoration: line-through;
+    color: #A79300;
+}
+
+.task-status.completed { color: #388e3c; font-weight: bold; }
+.task-status.pending { color: #d32f2f; font-weight: bold; }
+
+.task-actions button {
+    padding: 5px 8px;
+    margin-left: 5px;
+    font-size: 0.8rem;
+    border-radius: 3px;
+    text-transform: none;
+}
+
+.task-actions .complete-btn { background-color: #4CAF50; color: white; border: none; }
+.task-actions .delete-btn { background-color: #F44336; color: white; border: none; }
+.task-actions .complete-btn:hover { background-color: #66bb6a; }
+.task-actions .delete-btn:hover { background-color: #e57373; }
+
+/* --- Footer --- */
+footer {
+    text-align: center;
+    margin-top: 150px;
+    color: #A79300;
+    font-size: 0.8rem;
+}
+
+/* --- Pop-up/Modal (Delete All) --- */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 100;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content {
+    background-color: #FFFCA1;
+    margin: 15% auto;
+    padding: 20px;
+    border: 2px solid #FFCC00;
+    width: 80%;
+    max-width: 400px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+}
+
+.close-button {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.modal-actions {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.modal-actions .action-button {
+    padding: 10px 20px;
+}
+
+/* --- Responsive --- */
+@media (max-width: 550px) {
+    header { flex-direction: column; text-align: center; }
+    .logo-container { margin-right: 0; margin-bottom: 10px; }
+    h1 { font-size: 1.2rem; }
+    
+    .todo-container { padding: 20px 15px; }
+
+    .input-area { flex-wrap: wrap; }
+    #task-input, #date-input {
+        width: 100% !important;
+        flex: none;
+    }
+    #add-button {
+        width: 100%;
+        margin-top: 5px;
+        order: 3;
+    }
+    
+    .controls { flex-direction: column; gap: 10px; }
+    .dropdown-filter, #delete-all-button { width: 100%; }
+    .dropdown-content { min-width: 100%; }
+
+    thead th, tbody td {
+        padding: 8px 3px;
+        font-size: 0.75rem;
+    }
+    
+    .task-actions button {
+        padding: 4px 6px;
+        margin-left: 2px;
+        font-size: 0.7rem;
+    }
+}
