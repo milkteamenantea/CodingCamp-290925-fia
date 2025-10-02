@@ -27,7 +27,7 @@ body {
 header {
     width: 81%;
     max-width: 800px;
-    display: flex;
+    display:inline-flex;
     align-items: center;
     margin-bottom: 100px;
     margin-top: 50px;
