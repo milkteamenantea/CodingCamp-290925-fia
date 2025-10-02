@@ -1,19 +1,23 @@
-// Data penyimpanan tugas
+// Data penyimpanan tugas (gunakan Local Storage untuk persistensi)
 let todos = JSON.parse(localStorage.getItem('todos')) || [];
 
-// Elemen-elemen DOM
+// Ambil elemen-elemen DOM
 const todoForm = document.getElementById('todo-form');
 const taskInput = document.getElementById('task-input');
 const dateInput = document.getElementById('date-input');
-const taskList = document.getElementById('task-list');
+const taskList = document.getElementById('task-list'); // <tbody>
 const filterButton = document.getElementById('filter-button');
 const dropdownContent = document.querySelector('.dropdown-content');
 const deleteAllButton = document.getElementById('delete-all-button');
+
+// Asumsi elemen modal ada di HTML
 const deleteAllModal = document.getElementById('delete-all-modal');
 const confirmDeleteButton = document.getElementById('confirm-delete');
 const cancelDeleteButton = document.getElementById('cancel-delete');
 const closeModal = document.querySelector('.close-button');
-const noTaskMessage = document.getElementById('no-task-message');
+
+// PENTING: Elemen pesan "NO TASK FOUND" (Pastikan HTML Anda memiliki <div id="no-task-message" class="no-task-found">)
+const noTaskMessage = document.getElementById('no-task-message'); 
 
 // --- Fungsi Utama ---
 
@@ -24,19 +28,23 @@ function saveTodos() {
     localStorage.setItem('todos', JSON.stringify(todos));
 }
 
+/**
+ * Memperbarui tampilan pesan "NO TASK FOUND".
+ * Memenuhi Test Case: Tampilkan jika daftar kosong, Sembunyikan jika terisi.
+ */
 function updateNoTaskMessage() {
+    // Keluar jika elemen pesan tidak ditemukan di HTML
+    if (!noTaskMessage) return; 
+    
     if (todos.length === 0) {
-        // Tampilkan pesan jika daftar kosong
-        if (noTaskMessage) {
-            noTaskMessage.style.display = 'block';
-        }
+        // Test Case 1: Daftar Kosong -> Tampilkan (gunakan 'block' atau 'flex' agar pasti muncul)
+        noTaskMessage.style.display = 'block';
     } else {
-        // Sembunyikan pesan jika ada tugas
-        if (noTaskMessage) {
-            noTaskMessage.style.display = 'none';
-        }
+        // Test Case 2: Daftar Terisi -> Sembunyikan
+        noTaskMessage.style.display = 'none';
     }
 }
+
 
 /**
  * Merender (menampilkan) daftar tugas ke tabel
@@ -45,13 +53,17 @@ function updateNoTaskMessage() {
 function renderTodos(tasksToRender = todos) {
     taskList.innerHTML = ''; // Kosongkan daftar yang sudah ada
 
-    if (tasksToRender.length === 0 && todos.length > 0) {
+    // Panggil fungsi ini di awal untuk memperbarui status pesan di luar tabel
+    updateNoTaskMessage(); 
+
+    // Jika daftar tugas kosong (tasksToRender.length === 0), kita keluar dari fungsi
+    // karena pesan "NO TASK FOUND" sudah diurus oleh updateNoTaskMessage()
+
+    if (tasksToRender.length === 0) {
         return;
     }
     
-    if (tasksToRender.length === 0) return;
-
-    tasksToRender.forEach((todo, index) => {
+    tasksToRender.forEach((todo) => {
         const row = document.createElement('tr');
 
         // TASK
@@ -63,7 +75,7 @@ function renderTodos(tasksToRender = todos) {
 
         // DUE DATE
         const dateCell = document.createElement('td');
-        dateCell.textContent = todo.dueDate; // Format MM/DD/YYYY dari input date
+        dateCell.textContent = todo.dueDate; 
 
         // STATUS
         const statusCell = document.createElement('td');
@@ -79,11 +91,12 @@ function renderTodos(tasksToRender = todos) {
         const completeBtn = document.createElement('button');
         completeBtn.textContent = todo.completed ? 'Incomplete' : 'Complete';
         completeBtn.classList.add('action-button', 'complete-btn');
-        completeBtn.addEventListener('click', () => toggleComplete(todo.id));
+        completeBtn.addEventListener('click', () => toggleComplete(todo.id)); 
 
         // Tombol Delete
         const deleteBtn = document.createElement('button');
-        deleteBtn.innerHTML = '<i class="fas fa-trash"></i>';
+        // Pastikan Anda memiliki Font Awesome atau CSS yang sesuai untuk ikon sampah
+        deleteBtn.innerHTML = '<i class="fas fa-trash"></i>'; 
         deleteBtn.classList.add('action-button', 'delete-btn');
         deleteBtn.addEventListener('click', () => deleteTodo(todo.id));
 
@@ -101,51 +114,50 @@ function renderTodos(tasksToRender = todos) {
 
 /**
  * Menambahkan tugas baru
- * @param {Event} e - Event submit formulir
  */
 function addTodo(e) {
     e.preventDefault();
 
-    // --- Validasi Formulir Masukan ---
     if (!taskInput.value.trim() || !dateInput.value) {
         alert("Kolom To-Do dan Tanggal harus diisi!");
         return;
     }
 
-    // Ubah format tanggal dari YYYY-MM-DD (format input type="date") menjadi MM/DD/YYYY
     const [year, month, day] = dateInput.value.split('-');
     const formattedDate = `${month}/${day}/${year}`;
 
     const newTodo = {
-        id: Date.now(), // ID unik
+        id: Date.now(), 
         task: taskInput.value.trim(),
         dueDate: formattedDate,
-        rawDate: dateInput.value, // Simpan juga raw date untuk sorting
+        rawDate: dateInput.value, 
         completed: false
     };
 
     todos.push(newTodo);
     saveTodos();
-    renderTodos();
+    // Panggil renderTodos untuk update tampilan dan pesan
+    renderTodos(); 
 
-    // Reset formulir
     taskInput.value = '';
     dateInput.value = '';
 }
 
 /**
  * Menghapus tugas berdasarkan ID
- * @param {number} id - ID tugas yang akan dihapus
  */
 function deleteTodo(id) {
+    // Konfirmasi (opsional)
+    // if (!confirm("Yakin ingin menghapus tugas ini?")) return;
+    
     todos = todos.filter(todo => todo.id !== id);
     saveTodos();
+    // Panggil renderTodos untuk update tampilan dan pesan
     renderTodos();
 }
 
 /**
  * Mengubah status complete/incomplete tugas berdasarkan ID
- * @param {number} id - ID tugas yang akan diubah statusnya
  */
 function toggleComplete(id) {
     todos = todos.map(todo => {
@@ -155,14 +167,19 @@ function toggleComplete(id) {
         return todo;
     });
     saveTodos();
+    // Panggil renderTodos untuk update tampilan
     renderTodos();
 }
 
 /**
  * Mengurutkan daftar tugas
- * @param {string} sortType - Tipe pengurutan (e.g., 'date-asc', 'alpha-desc')
  */
 function sortTodos(sortType) {
+    if (sortType === 'default' || !sortType) {
+         renderTodos(todos); // Render array asli
+         return;
+    }
+    
     let sortedTodos = [...todos]; // Buat salinan
 
     switch (sortType) {
@@ -178,72 +195,83 @@ function sortTodos(sortType) {
         case 'alpha-desc':
             sortedTodos.sort((a, b) => b.task.localeCompare(a.task));
             break;
-        default:
-            // Urutan default (tanpa sorting)
-            sortedTodos = todos;
     }
 
+    // Render hasil sorting
     renderTodos(sortedTodos);
 }
 
 // --- Handler Events ---
 
 // 1. Tambahkan Tugas
-todoForm.addEventListener('submit', addTodo);
+// Pastikan elemen todoForm ada (<form id="todo-form">)
+if (todoForm) {
+    todoForm.addEventListener('submit', addTodo);
+} else {
+    // Jika tidak menggunakan form, gunakan tombol Add langsung
+    // Anda mungkin perlu menambahkan logic keypress Enter pada input
+    document.getElementById('add-button')?.addEventListener('click', addTodo);
+}
 
 // 2. Filter dengan Responsive Dropdown
-filterButton.addEventListener('click', (e) => {
-    e.stopPropagation(); // Mencegah klik menyebar ke window
-    // Toggle display
-    if (dropdownContent.style.display === 'block') {
-        dropdownContent.style.display = 'none';
-    } else {
-        dropdownContent.style.display = 'block';
-    }
-});
+if (filterButton && dropdownContent) {
+    filterButton.addEventListener('click', (e) => {
+        e.stopPropagation(); 
+        if (dropdownContent.style.display === 'block') {
+            dropdownContent.style.display = 'none';
+        } else {
+            dropdownContent.style.display = 'block';
+        }
+    });
 
-// 3. Menangani klik pada opsi sorting di dalam dropdown
-dropdownContent.addEventListener('click', (e) => {
-    if (e.target.tagName === 'A' && e.target.dataset.sort) {
-        e.preventDefault();
-        sortTodos(e.target.dataset.sort);
-        // Sembunyikan dropdown setelah memilih opsi
-        dropdownContent.style.display = 'none'; 
-    }
-});
+    dropdownContent.addEventListener('click', (e) => {
+        if (e.target.tagName === 'A' && e.target.dataset.sort) {
+            e.preventDefault();
+            sortTodos(e.target.dataset.sort);
+            dropdownContent.style.display = 'none'; 
+        }
+    });
+}
+
 
 // 4. Tombol Delete All dengan Pop-up Konfirmasi
-deleteAllButton.addEventListener('click', () => {
-    if (todos.length === 0) {
-        alert("Tidak ada tugas untuk dihapus.");
-        return;
-    }
-    deleteAllModal.style.display = 'block';
-});
+if (deleteAllButton && deleteAllModal) {
+    deleteAllButton.addEventListener('click', () => {
+        if (todos.length === 0) {
+            alert("Tidak ada tugas untuk dihapus.");
+            return;
+        }
+        deleteAllModal.style.display = 'block';
+    });
 
-// Konfirmasi penghapusan
-confirmDeleteButton.addEventListener('click', () => {
-    todos = [];
-    saveTodos();
-    renderTodos();
-    deleteAllModal.style.display = 'none';
-});
+    confirmDeleteButton.addEventListener('click', () => {
+        todos = [];
+        saveTodos();
+        renderTodos();
+        deleteAllModal.style.display = 'none';
+    });
 
-// Batalkan penghapusan
-cancelDeleteButton.addEventListener('click', () => {
-    deleteAllModal.style.display = 'none';
-});
+    cancelDeleteButton.addEventListener('click', () => {
+        deleteAllModal.style.display = 'none';
+    });
 
-// Tutup modal jika klik di luar atau tombol 'x'
-closeModal.addEventListener('click', () => {
-    deleteAllModal.style.display = 'none';
-});
+    closeModal.addEventListener('click', () => {
+        deleteAllModal.style.display = 'none';
+    });
+}
 
+// Global Event Listener untuk menutup modal/dropdown
 window.addEventListener('click', (event) => {
+    if (!event.target.closest('.dropdown-filter')) {
+        dropdownContent.style.display = 'none';
+    }
+    
     if (event.target === deleteAllModal) {
         deleteAllModal.style.display = 'none';
     }
 });
 
-// 4. Inisialisasi: Render tugas saat halaman dimuat
-document.addEventListener('DOMContentLoaded', renderTodos);
+// 5. Inisialisasi: Render tugas saat halaman dimuat
+document.addEventListener('DOMContentLoaded', () => {
+    renderTodos();
+});

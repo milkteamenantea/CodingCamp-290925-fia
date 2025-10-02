@@ -18,17 +18,14 @@
             <img src="./img/Screenshot 2025-09-29 185348.png" alt="RevoU Logo" class="logo" />
             <h1>MINI PROJECT BATCH 29 SEPTEMBER 2025</h1>
         </header>
-
         <main>
             <div class="todo-container">
                 <h2>To-Do List</h2>
-
                 <form id="todo-form" class="input-area">
                     <input type="text" id="task-input" placeholder="Add a to-do..." required>
                     <input type="date" id="date-input" required>
                     <button type="submit" id="add-button" class="action-button">+</button>
                 </form>
-
                 <div class="controls">
                     <div class="dropdown-filter">
                         <button id="filter-button" class="action-button">FILTER</button>
@@ -41,7 +38,6 @@
                     </div>
                     <button id="delete-all-button" class="action-button delete-all-btn">DELETE ALL</button>
                 </div>
-
                 <div class="task-list-container">
                     <table>
                         <thead>
@@ -53,14 +49,16 @@
                             </tr>
                         </thead>
                         <tbody id="task-list">
-                            <tr><td colspan="4" id="no-task-message" class="no-task">NO TASK FOUND</td></tr>
+
                         </tbody>
                     </table>
-                    </div>
+                </div>
+                <div id="no-task-message" class="no-task-found">NO TASK FOUND</div>
                 </div>
             </div>
         </main>
 
+        <!-- Footer -->
         <footer>
             <p>&copy; 2025 - Made by Khalifia Mutiara Andiarini</p>
             <p>Revou Software Engineer Coding Camp</p>
@@ -78,5 +76,6 @@
         </div>
 
         <script src="./js/script.js"></script>
+        
     </body>
 </html>
