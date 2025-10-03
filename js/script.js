@@ -237,7 +237,7 @@ if (filterButton && dropdownContent) {
 if (deleteAllButton && deleteAllModal) {
     deleteAllButton.addEventListener('click', () => {
         if (todos.length === 0) {
-            alert("Tidak ada tugas untuk dihapus.");
+            alert("No tasks to delete");
             return;
         }
         deleteAllModal.style.display = 'block';
